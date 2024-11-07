@@ -6,8 +6,9 @@
 
 # Student Name: Dan Shaw w0190983
 
+# I'm using global variables for constants only. Everything else will remain local as per your request
 CLASSES = [ "PROG1700", "NETW1024", "OSYS1200", "WEBD1000", "DBAS1001", "COMM1700" ]
-VALID_GRADES = ["A", "B", "C", "D", "E", "F"]
+VALID_GRADES = ["A", "B", "C", "D", "F"] # I've disincluded E from this list because the instructions printed to the user only ask for ABCDF
 VALID_MODS = ["+", "-", ""]
 
 # main() FUNCTION
@@ -65,6 +66,7 @@ def calculateNumeric(letterGrade, modifier):
     return numericGrade
 
 def getGrade(course):
+    # Some input validation to make sure the user entered valid values for both letterGrade and modifier
     while (letterGrade := input("Please enter a letter grade for {0}\n> ".format(course)).upper()) not in VALID_GRADES:
         print("Invalid Input. Must be between A and F".format(course))
 
@@ -74,4 +76,5 @@ def getGrade(course):
     return letterGrade, modifier
 
 #PROGRAM EXECUTION STARTS HERE
-main()
+if __name__ == "__main__":
+    main()
