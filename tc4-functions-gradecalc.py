@@ -4,7 +4,11 @@
 # to calculate a final grade point average for all six courses.
 ############################################
 
-# Student Name: 
+# Student Name: Dan Shaw w0190983
+
+CLASSES = [ "PROG1700", "NETW1024", "OSYS1200", "WEBD1000", "DBAS1001", "COMM1700" ]
+VALID_GRADES = ["A", "B", "C", "D", "E", "F"]
+VALID_MODS = ["+", "-", ""]
 
 # main() FUNCTION
 def main():
@@ -16,11 +20,25 @@ def main():
     print("Calculated grade point value cannot exceed 4.0.\n")
 
     numericGrade = 0.0
+    grades = []
 
-    #Gather user inputs
-    letterGrade = input("Please enter a letter grade : ").upper()
-    modifier = input("Please enter a modifier (+, - or nothing) : ")
+    for i in range(len(CLASSES)):
+        #Gather user inputs
+        results = getGrade(CLASSES[i])
+        numericGrade = calculateNumeric(results[0], results[1])
+        grades.append(numericGrade)
+    
+    print("*" * 50)
+    for i in range(len(CLASSES)):
+        # Output final message and result, with formatting
+        print("The numeric value for {1} is: {0:.1f}".format(grades[i], CLASSES[i]))
 
+    print("Your grade point average for the semester is: {0:.1f}".format(calculateAverage(grades)))
+
+def calculateAverage(grades:list):
+    return (sum(grades) / len(grades))
+
+def calculateNumeric(letterGrade, modifier):
     # Determine base numeric value of the grade
     if letterGrade == "A":
         numericGrade = 4.0
@@ -35,7 +53,7 @@ def main():
     else:
         #If an invalid entry is made
         print("You entered an invalid letter grade.")
-    
+
     # Determine whether to apply a modifier
     if modifier == "+":
         if letterGrade != "A" and letterGrade != "F": # Plus is not valid on A or F
@@ -44,8 +62,16 @@ def main():
         if letterGrade != "F":     # Minus is not valid on F
             numericGrade -= 0.3
 
-    # Output final message and result, with formatting
-    print("The numeric value is: {0:.1f}".format(numericGrade))
+    return numericGrade
+
+def getGrade(course):
+    while (letterGrade := input("Please enter a letter grade for {0}\n> ".format(course)).upper()) not in VALID_GRADES:
+        print("Invalid Input. Must be between A and F".format(course))
+
+    while (modifier := input("Please enter a modifier (+, -, or nothing)\n> ")) not in VALID_MODS:
+        print("Invalid modifier. Please enter only +, -, or leave blank")
+
+    return letterGrade, modifier
 
 #PROGRAM EXECUTION STARTS HERE
 main()
